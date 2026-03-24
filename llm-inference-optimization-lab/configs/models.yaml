@@ -1,0 +1,22 @@
+# Model configuration for LLM Inference Optimization Lab
+
+# Small model that works on CPU for local development
+default_small_model: "gpt2"
+
+# Draft model for speculative decoding (smaller/faster than target)
+draft_model: "distilgpt2"
+
+# Target model for speculative decoding verification
+target_model: "gpt2"
+
+# Quantized backend mode: "portable_quantized" or "tensorrt"
+quantized_backend_mode: "portable_quantized"
+
+# Device preference: "cpu", "cuda", "mps"
+device_preference: "cpu"
+
+# Model loading options
+model_options:
+  torch_dtype: "float32"
+  low_cpu_mem_usage: true
+  trust_remote_code: false

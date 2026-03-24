@@ -1,0 +1,13 @@
+# Logging configuration
+
+level: "INFO"
+
+# Directory for structured event JSONL files
+event_log_dir: "./logs"
+
+# Emit structured JSON logs to stdout
+structured: true
+
+# Log rotation (placeholder for production)
+max_log_size_mb: 100
+max_log_files: 10

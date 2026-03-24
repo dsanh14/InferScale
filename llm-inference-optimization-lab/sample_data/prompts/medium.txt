@@ -1,0 +1,1 @@
+Describe the key differences between CPUs and GPUs in the context of machine learning workloads. Cover parallelism, memory bandwidth, and typical use cases for each processor type.

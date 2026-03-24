@@ -1,0 +1,1 @@
+A server processes inference requests with an average latency of 50ms per token. If a batch of 8 requests each need 64 tokens generated, and the server can process all 8 requests in parallel with 90% efficiency, how long will it take to complete the entire batch? Show your reasoning step by step.
