@@ -1,0 +1,88 @@
+version: "3.8"
+
+# LLM Inference Optimization Lab — Docker Compose
+#
+# Launches all services on a shared network. Each service loads the
+# model independently; for production use, a shared model volume or
+# a model-server sidecar would be preferred.
+#
+# GPU support: uncomment the `deploy` blocks below and ensure the
+# NVIDIA Container Toolkit is installed.
+
+x-common: &common
+  build:
+    context: .
+    dockerfile: Dockerfile
+  env_file: .env
+  volumes:
+    - ./logs:/app/logs
+    - ./results:/app/results
+  restart: unless-stopped
+
+services:
+  router:
+    <<: *common
+    container_name: inference-router
+    command: >
+      uvicorn app.router.main:app --host 0.0.0.0 --port 8000
+    ports:
+      - "${ROUTER_PORT:-8000}:8000"
+    depends_on:
+      - baseline
+      - quantized
+      - speculative
+      - prefill
+      - decode
+    environment:
+      - BASELINE_URL=http://baseline:8001
+      - QUANTIZED_URL=http://quantized:8002
+      - SPECULATIVE_URL=http://speculative:8003
+      - PREFILL_URL=http://prefill:8004
+      - DECODE_URL=http://decode:8005
+
+  baseline:
+    <<: *common
+    container_name: inference-baseline
+    command: >
+      uvicorn app.baseline_service.main:app --host 0.0.0.0 --port 8001
+    ports:
+      - "${BASELINE_PORT:-8001}:8001"
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: 1
+    #           capabilities: [gpu]
+
+  quantized:
+    <<: *common
+    container_name: inference-quantized
+    command: >
+      uvicorn app.quantized_service.main:app --host 0.0.0.0 --port 8002
+    ports:
+      - "${QUANTIZED_PORT:-8002}:8002"
+
+  speculative:
+    <<: *common
+    container_name: inference-speculative
+    command: >
+      uvicorn app.speculative_service.main:app --host 0.0.0.0 --port 8003
+    ports:
+      - "${SPECULATIVE_PORT:-8003}:8003"
+
+  prefill:
+    <<: *common
+    container_name: inference-prefill
+    command: >
+      uvicorn app.prefill_service.main:app --host 0.0.0.0 --port 8004
+    ports:
+      - "${PREFILL_PORT:-8004}:8004"
+
+  decode:
+    <<: *common
+    container_name: inference-decode
+    command: >
+      uvicorn app.decode_service.main:app --host 0.0.0.0 --port 8005
+    ports:
+      - "${DECODE_PORT:-8005}:8005"
