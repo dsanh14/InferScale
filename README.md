@@ -42,7 +42,7 @@ Production LLM inference is a systems engineering challenge. Reducing latency, m
                                             └────────────────────┘
 ```
 
-See [docs/architecture.md](docs/architecture.md) for the full component breakdown.
+See [docs/architecture.md](llm-inference-optimization-lab/docs/architecture.md) for the full component breakdown.
 
 ## Quickstart
 
@@ -146,7 +146,7 @@ This produces 144 configurations per sweep. Each configuration is measured with 
 | `ttft_by_prompt_length.png` | Time-to-first-token across prompt lengths |
 | `speculative_acceptance_rate.png` | Distribution of draft token acceptance rates |
 
-See [docs/benchmark_methodology.md](docs/benchmark_methodology.md) for interpretation guidance and caveats.
+See [docs/benchmark_methodology.md](llm-inference-optimization-lab/docs/benchmark_methodology.md) for interpretation guidance and caveats.
 
 ### Interpreting Results
 
@@ -188,7 +188,7 @@ This project maps directly to NVIDIA inference infrastructure concepts:
 | Replay validator | Systems reliability tooling |
 | Metrics layer | Triton Inference Server metrics |
 
-See [docs/nvidia_mapping.md](docs/nvidia_mapping.md) for the full mapping and integration guide.
+See [docs/nvidia_mapping.md](llm-inference-optimization-lab/docs/nvidia_mapping.md) for the full mapping and integration guide.
 
 **Design philosophy**: The adapter interfaces are real — `QuantizedBackend`, routing policies, cache artifacts — so that swapping in TensorRT-LLM, Dynamo, or Triton backends requires implementing the interface, not rewriting the architecture.
 
@@ -222,7 +222,7 @@ See [docs/nvidia_mapping.md](docs/nvidia_mapping.md) for the full mapping and in
 - Continuous batching scheduler
 - Custom CUDA attention kernels
 
-See [docs/future_work.md](docs/future_work.md) for the full roadmap.
+See [docs/future_work.md](llm-inference-optimization-lab/docs/future_work.md) for the full roadmap.
 
 ## Project Structure
 
